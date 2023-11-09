@@ -1,0 +1,97 @@
+register: 
+    url: http://localhost:8800/api/user/register
+    method: POST
+    body:
+        {
+            "email": "student@gmail.com"
+            "password": "student",
+            "name": "student"
+        }
+
+login:
+    url: http://localhost:8800/api/user/login
+    method: POST
+    body:
+        {
+            "email": "student@gmail.com"
+            "password": "student"
+        }
+
+getAllExamByTeacher:
+    description: Lấy tất cả exam được tạo bởi giáo viên, req.body cần gửi trường userId là id của giáo viên
+    url: http://localhost:8800/api/exam
+    method: GET
+    body: 
+        {
+            "userId": "654bab33cef49aeff8d3bc97"
+        }
+
+createExam:
+    description: Tạo một exam bởi giáo viên, trong đó req.body cần gửi userId là id của giáo viên, name là tên của bài exam và password là một string chứa pass của bài exam
+    url: http://localhost:8800/api/exam
+    method: POST
+    body: {
+        "userId": "654bab33cef49aeff8d3bc97",
+        "name": "DBMS",
+        "password": "123"
+    }
+
+
+getExam:
+    description: Lấy thông tin chi tiết của một bài exam có cả question. Trong đó req.params cần gửi id của exam
+    url: http://localhost:8800/api/exam/654cdf1181d15b6ff4898a5a
+    method: GET
+
+
+submitExam:
+    description: Nộp bài exam bởi học sinh. Trong đó req.body cần gửi:
+        userId là id của học sinh
+        examId là id của bài exam
+        answers là mảng các object các câu trả lời học sinh, trong đó có:
+            questionId: mã id của câu hỏi,
+            selection: string chính xác câu trả lời của học sinh
+
+        res sẽ trả về
+            score là số câu trả lời đúng của học sinh 
+            totalQuestion: là tổng số câu hỏi trong bài exam đó
+    url: http://localhost:8800/api/exam/submit
+    method: POST
+    body: {
+        "userId": "654bab33cef49aeff8d3bc97",
+        "examId": "654cdf1181d15b6ff4898a5a",
+        "answers": [
+            {
+                "questionId": "654ce3bb574a10660e208940",
+                "selection": "a"
+            },
+            {
+                "questionId": "654ce3eb574a10660e208943",
+                "selection": "c"
+            },
+            {
+                "questionId": "654ce3ef574a10660e208946",
+                "selection": "b"
+            }
+        ]
+    }
+
+
+joinExam:
+    description: Học sinh join vào bài kiểm tra. Trong đó, params cần examId, body cần password của exam
+    url: http://localhost:8800/api/exam/join/654cdf1181d15b6ff4898a5a
+    method: POST
+    body: {
+        "password": "ppl"
+    }
+
+
+createQuestion: 
+    description: Tạo từng câu hỏi cho bài kiểm tra. Trong đó, examId là id của exam, title là nội dung câu hỏi, options là mảng của các câu trả lời. answer là nội dung của đáp án.
+    url: http://localhost:8800/api/question
+    method: POST
+    body: {
+        "examId": "654cdf1181d15b6ff4898a5a",
+        "title": "Cau 4",
+        "options": ["abc", "bcd", "cde", "def"],
+        "answer": "abc"
+    }
