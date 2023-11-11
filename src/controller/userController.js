@@ -84,7 +84,7 @@ export const changeRole = async (req, res) => {
         }
         const findUser = await userModel.findById(req.body.id);
         if (!findUser) {
-            return res.status(400).json({
+            return res.status(404).json({
                 message: 'User does not exist!'
             })
         }
@@ -94,6 +94,32 @@ export const changeRole = async (req, res) => {
             message: 'Change role successful!'
         })
     } catch (e) {
+        return res.status(500).json(e.message);
+    }
+}
+
+export const singleUser = async (req, res) => {
+    try {
+        if (!req.params.id) {
+            return res.status(400).json({
+                message: 'Missing input parameter!'
+            })
+        }
+        const findUser = await userModel.findById(req.body.id);
+        if (!findUser) {
+            return res.status(404).json({
+                message: 'User does not exist!'
+            })
+        }
+        return res.status(200).json({
+            id: findUser._id,
+            email: findUser.email,
+            name: findUser.name,
+            role: findUser.role
+        })
+
+    }
+    catch (e) {
         return res.status(500).json(e.message);
     }
 }
@@ -123,7 +149,7 @@ export const changeName = async (req, res) => {
         }
         const findUser = await userModel.findById(req.body.id);
         if (!findUser) {
-            return res.status(400).json({
+            return res.status(404).json({
                 message: 'User does not exist!'
             })
         }
