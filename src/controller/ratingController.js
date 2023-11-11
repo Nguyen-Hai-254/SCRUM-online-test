@@ -23,13 +23,13 @@ export const getExamScoreList = async (req, res) => {
 export const getStudentScoreList = async (req, res) => {
     try {
         var result;
-        if (!req.body.studentID) {
+        if (!req.params.studentID) {
             return res.status(500).json({
                 message: 'Missing input parameter!'
             })
         }
         result = await RatingModel.find({
-            studentID: req.body.examID
+            studentID: req.params.studentID
         });  
         return res.status(200).json({
             scoreList : result,
