@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import examRoute from './routes/examRoute.js';
 import UserRouter from './routes/userRoute.js';
 import questionRoute from './routes/questionRoute.js';
+import ratingRouter from './routes/ratingRoute.js';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(cors());
 app.use('/api/exam', examRoute);
 app.use('/api/user', UserRouter);
 app.use('/api/question', questionRoute);
+app.use('/api/rating', questionRoute);
 
 mongoose.connect(process.env.MONGO_URL)
     .then(() => {

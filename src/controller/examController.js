@@ -1,6 +1,7 @@
 import examModel from "../database/model/examModel.js";
 import userModel from "../database/model/userModel.js";
 import questionModel from "../database/model/questionModel.js";
+import { saveScore } from "./ratingController.js";
 
 export const getAllExamByTeacher = async (req, res) => {
     try {
@@ -116,6 +117,8 @@ export const submitExam = async (req, res) => {
             const question = findQuestions.find((e) => e._id == answer.questionId)
             if (question?.answer === answer.selection) score++;
         })
+
+        saveScore(eq.user._id, req.body.examId, score);
 
         return res.status(200).json({
             message: 'Submit successful',
