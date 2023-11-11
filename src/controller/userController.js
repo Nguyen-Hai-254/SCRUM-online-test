@@ -105,7 +105,7 @@ export const singleUser = async (req, res) => {
                 message: 'Missing input parameter!'
             })
         }
-        const findUser = await userModel.findById(req.body.id);
+        const findUser = await userModel.findById(req.params.id);
         if (!findUser) {
             return res.status(404).json({
                 message: 'User does not exist!'
