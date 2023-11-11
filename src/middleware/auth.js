@@ -15,7 +15,6 @@ export const verifyToken = async (req, res, next) => {
     try {
         if (tokenFromHeader(req) || (req.cookies && req.cookies.jwt)) {
             let decoded = tokenFromHeader(req) ? jwt.verify(tokenFromHeader(req), key) : jwt.verify(req.cookies.jwt, key);
-            console.log(decoded);
             if (decoded && decoded._id && decoded.email && decoded.role) {
                 req.user = { _id: decoded._id, email: decoded.email, role: decoded.role };
                 // req.role = decoded.role;

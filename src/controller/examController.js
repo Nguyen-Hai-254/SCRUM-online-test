@@ -79,14 +79,33 @@ export const getExam = async (req, res) => {
     }
 }
 
-// export const lockExam = async (req, res) => {
-//     try {
-//         if (!req.)
-//     }catch (e) {
-//         return res.status(500).json(e.message)
+export const lockExam = async (req, res) => {
+    try {
+        if (!req.params.examId) {
+            return res.status(500).json({
+                message: 'Missing input!',
+                status: 500
+            })
+        }
+        const findExam = await examModel.findById(req.params.examId);
+        if (!findExam) {
+            return res.status(500).json({
+                message: 'Missing input!',
+                status: 500
+            })
+        }
 
-//     }
-// }
+        findExam.isLocked = !findExam.isLocked;
+        await findExam.save();
+
+        return res.status(200).json({
+            message: 'OK'
+        })
+    } catch (e) {
+        return res.status(500).json(e.message)
+
+    }
+}
 
 export const submitExam = async (req, res) => {
     try {
