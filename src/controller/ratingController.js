@@ -3,13 +3,13 @@ import RatingModel from "../database/model/ratingModel.js"
 export const getExamScoreList = async (req, res) => {
     try {
         var result;
-        if (!req.body.examID) {
+        if (!req.params.examID) {
             return res.status(500).json({
                 message: 'Missing input parameter!'
             })
         }
         result = await RatingModel.find({
-            examID: req.body.examID
+            examID: req.params.examID
         });  
         return res.status(200).json({
             scoreList : result,
