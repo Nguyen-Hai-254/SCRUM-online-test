@@ -17,7 +17,7 @@ app.use(cors());
 app.use('/api/exam', examRoute);
 app.use('/api/user', UserRouter);
 app.use('/api/question', questionRoute);
-app.use('/api/rating', questionRoute);
+app.use('/api/rating', ratingRouter);
 
 mongoose.connect(process.env.MONGO_URL)
     .then(() => {
