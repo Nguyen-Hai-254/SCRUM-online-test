@@ -1,9 +1,10 @@
 import express from "express";
 import { createExam, getAllExamByTeacher, getExam, joinExam, submitExam } from "../controller/examController.js";
+import { verifyToken } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.get('/', getAllExamByTeacher);
+router.get('/', verifyToken, getAllExamByTeacher);
 router.post('/', createExam);
 router.get('/:id', getExam);
 router.post('/submit', submitExam);

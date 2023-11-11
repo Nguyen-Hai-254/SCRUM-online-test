@@ -1,4 +1,5 @@
 import userModel from "../database/model/userModel.js";
+import { createToken } from "../utils/jwtAction.js";
 
 export const register = async (req, res) => {
     try {
@@ -48,12 +49,25 @@ export const login = async (req, res) => {
                 message: 'Password does not match!'
             })
         }
+
+        let payload = {
+            _id: findUser._id,
+            email: findUser.email,
+            role: findUser.role,
+            expireIn: process.env.JWT_EXPIRE_IN
+        }
+        let token = createToken(payload)
+
         return res.status(200).json({
             message: 'Login successful',
             data: {
-                id: findUser._id,
-                email: findUser.email,
-                role: findUser.role
+                access_token: token,
+                userData: {
+                    _id: findUser._id,
+                    email: findUser.email,
+                    role: findUser.role
+                }
+
             }
         })
     } catch (e) {

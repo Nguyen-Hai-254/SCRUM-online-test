@@ -4,20 +4,16 @@ import questionModel from "../database/model/questionModel.js";
 
 export const getAllExamByTeacher = async (req, res) => {
     try {
-        if (!req.body.userId) {
-            return res.status(500).json({
-                message: 'Missing input!',
-                status: 500
-            })
-        }
-        const findTeacher = await userModel.findById(req.body.userId)
+        console.log('user', req.user);
+        const findTeacher = await userModel.findById(req.user._id)
+        console.log('>>', findTeacher);
         if (!findTeacher) {
             return res.status(404).json({
                 message: 'Not found teacher'
             })
         }
 
-        const findAllExamByTeacher = await examModel.find({ owner: findTeacher });
+        const findAllExamByTeacher = await examModel.find({ owner: req.user._id });
         return res.status(200).json({
             message: 'OK',
             data: {
@@ -85,6 +81,15 @@ export const getExam = async (req, res) => {
     }
 }
 
+// export const lockExam = async (req, res) => {
+//     try {
+//         if (!req.)
+//     }catch (e) {
+//         return res.status(500).json(e.message)
+
+//     }
+// }
+
 export const submitExam = async (req, res) => {
     try {
         const findQuestions = await questionModel.find({ exam: req.body.examId });
@@ -108,6 +113,8 @@ export const submitExam = async (req, res) => {
     }
 }
 
+
+
 export const joinExam = async (req, res) => {
     try {
         const findExam = await examModel.findById(req.params.id);
@@ -117,11 +124,19 @@ export const joinExam = async (req, res) => {
                 status: 403
             })
         }
+
+        if (findExam.isLocked) {
+            return res.status(404).json({
+                message: 'Exam is locked!',
+                status: 404
+            })
+        }
+
         return res.status(200).json({
             message: 'Join exam successful',
             status: 200
         })
-    }catch (e) {
+    } catch (e) {
         return res.status(500).json(e.message)
     }
 }
