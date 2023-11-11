@@ -4,9 +4,7 @@ import questionModel from "../database/model/questionModel.js";
 
 export const getAllExamByTeacher = async (req, res) => {
     try {
-        console.log('user', req.user);
         const findTeacher = await userModel.findById(req.user._id)
-        console.log('>>', findTeacher);
         if (!findTeacher) {
             return res.status(404).json({
                 message: 'Not found teacher'
@@ -30,14 +28,14 @@ export const getAllExamByTeacher = async (req, res) => {
 
 export const createExam = async (req, res) => {
     try {
-        if (!req.body.userId || !req.body.name || !req.body.password) {
+        if (!req.body.name || !req.body.password) {
             return res.status(500).json({
                 message: 'Missing input!',
                 status: 500
             })
         }
 
-        const findTeacher = await userModel.findById(req.body.userId);
+        const findTeacher = await userModel.findById(req.user._id);
         if (!findTeacher) {
             return res.status(404).json({
                 message: 'Not found teacher'
