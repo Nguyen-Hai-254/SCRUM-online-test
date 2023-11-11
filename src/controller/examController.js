@@ -118,7 +118,7 @@ export const submitExam = async (req, res) => {
             if (question?.answer === answer.selection) score++;
         })
 
-        saveScore(eq.user._id, req.body.examId, score);
+        saveScore(req.user._id, req.body.examId, score);
 
         return res.status(200).json({
             message: 'Submit successful',

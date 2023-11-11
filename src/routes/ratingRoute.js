@@ -1,10 +1,10 @@
 import express from "express";
-import { getExamScoreList } from "../controller/ratingController.js";
+import { getExamScoreList, getStudentScoreList } from "../controller/ratingController.js";
 import { verifyToken } from "../middleware/auth.js";
 
 const ratingRouter = express.Router();
 
-ratingRouter.get('/:examID/result', verifyToken, getExamScoreList);
-ratingRouter.get('/:studentID/result', verifyToken, getExamScoreList);
+ratingRouter.get('/exam/:examID/', verifyToken, getExamScoreList);
+ratingRouter.get('/student/:studentID/', verifyToken, getStudentScoreList);
 
 export default ratingRouter;
